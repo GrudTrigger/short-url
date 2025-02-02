@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"go/backend/configs"
 	"go/backend/internal/auth"
+	"go/backend/pkg/db"
 	"net/http"
 )
 
-// 6.8
+// 8.5
 func main() {
 	conf := configs.LoadConfig()
+	_ = db.NewDb(conf)
 	router := http.NewServeMux()
 
 	// Handler auth
