@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-// 9.4
+// 10.1
 func main() {
 	conf := configs.LoadConfig()
 	db := db.NewDb(conf)
