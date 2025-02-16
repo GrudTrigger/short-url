@@ -1,6 +1,8 @@
 package link
 
 import (
+	"go/backend/configs"
+	"go/backend/pkg/middleware"
 	"go/backend/pkg/request"
 	"go/backend/pkg/response"
 	"gorm.io/gorm"
@@ -10,6 +12,7 @@ import (
 
 type LinkHandlerDeps struct {
 	LinkRepository *LinkRepository
+	Config         *configs.Config
 }
 
 type LinkHandler struct {
@@ -22,7 +25,7 @@ func NewLinkHandler(route *http.ServeMux, deps LinkHandlerDeps) {
 	}
 	route.HandleFunc("POST /link", handler.Create())
 	route.HandleFunc("GET /{hash}", handler.GoTo())
-	route.HandleFunc("PATCH /link/{id}", handler.Update())
+	route.Handle("PATCH /link/{id}", middleware.IsAuthed(handler.Update(), deps.Config))
 	route.HandleFunc("DELETE /link/{id}", handler.Delete())
 }
 
